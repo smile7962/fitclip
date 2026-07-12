@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#ef2b2d" />
+  <meta name="description" content="DEMIC 운동 영상을 부위별·동작별로 찾아보는 FitClip 웹앱" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+  <link rel="stylesheet" href="./style.css" />
+  <title>FitClip</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <h1>Fit<span>Clip</span></h1>
+        <p>원하는 부위, 바로 운동.</p>
+      </div>
+      <button class="icon-btn" id="installBtn" hidden aria-label="앱 설치">＋</button>
+    </header>
+
+    <main>
+      <section id="homeView" class="view active">
+        <div class="search-box">
+          <span>⌕</span>
+          <input id="homeSearch" type="search" placeholder="운동명, 부위, 동작을 검색해보세요" />
+        </div>
+
+        <section class="section-block">
+          <div class="section-title">
+            <h2>부위별 찾기</h2>
+            <button class="text-btn" data-go="bodyView">모두 보기</button>
+          </div>
+          <div id="homeBodyCategories" class="category-grid"></div>
+        </section>
+
+        <section class="section-block">
+          <div class="section-title">
+            <h2>움직임으로 찾기</h2>
+            <button class="text-btn" data-go="movementView">모두 보기</button>
+          </div>
+          <div id="homeMovementCategories" class="category-grid movement"></div>
+        </section>
+
+        <section class="section-block">
+          <div class="section-title">
+            <h2>최근 본 영상</h2>
+          </div>
+          <div id="recentList" class="video-grid"></div>
+        </section>
+      </section>
+
+      <section id="bodyView" class="view">
+        <div class="page-heading">
+          <button class="back-btn" data-go="homeView">←</button>
+          <div>
+            <h2>부위별 운동</h2>
+            <p>운동 부위와 세부 부위를 선택하세요.</p>
+          </div>
+        </div>
+        <div id="bodyTabs" class="chip-row"></div>
+        <div id="subBodyTabs" class="chip-row secondary"></div>
+        <div class="section-title compact">
+          <h3 id="bodyResultTitle">전체 운동</h3>
+          <span id="bodyCount"></span>
+        </div>
+        <div id="bodyVideoList" class="video-grid"></div>
+      </section>
+
+      <section id="movementView" class="view">
+        <div class="page-heading">
+          <button class="back-btn" data-go="homeView">←</button>
+          <div>
+            <h2>동작별 운동</h2>
+            <p>움직임 패턴으로 영상을 찾아보세요.</p>
+          </div>
+        </div>
+        <div id="movementTabs" class="chip-row"></div>
+        <div id="movementDetailTabs" class="chip-row secondary"></div>
+        <div class="section-title compact">
+          <h3 id="movementResultTitle">전체 동작</h3>
+          <span id="movementCount"></span>
+        </div>
+        <div id="movementVideoList" class="video-grid"></div>
+      </section>
+
+      <section id="savedView" class="view">
+        <div class="page-heading">
+          <div>
+            <h2>저장</h2>
+            <p>즐겨찾기한 DEMIC 영상을 모아봅니다.</p>
+          </div>
+        </div>
+        <div class="saved-tabs">
+          <button class="saved-tab active" data-saved="favorites">즐겨찾기</button>
+          <button class="saved-tab" data-saved="recent">최근 본 영상</button>
+        </div>
+        <div id="savedList" class="video-grid"></div>
+      </section>
+
+      <section id="detailView" class="view detail-view">
+        <div class="page-heading detail-heading">
+          <button class="back-btn" id="detailBack">←</button>
+          <h2 id="detailHeader">영상 상세</h2>
+          <button id="detailFavorite" class="favorite-large" aria-label="즐겨찾기">☆</button>
+        </div>
+
+        <div class="player-wrap" id="playerWrap">
+          <div class="placeholder-player">
+            <div class="play-circle">▶</div>
+            <p>등록 예정 영상</p>
+          </div>
+        </div>
+
+        <article class="detail-card">
+          <h2 id="detailTitle"></h2>
+          <div id="detailTags" class="tag-row"></div>
+          <div class="info-box">
+            <h3>영상 안내</h3>
+            <p id="detailDescription"></p>
+          </div>
+          <a id="youtubeLink" class="primary-btn" target="_blank" rel="noopener">▶ YouTube Shorts 보기</a>
+          <a id="channelLink" class="secondary-btn" href="https://www.youtube.com/@officialdemic" target="_blank" rel="noopener">DEMIC 채널 열기</a>
+        </article>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-go="homeView"><span>⌂</span><b>홈</b></button>
+      <button class="nav-item" data-go="bodyView"><span>◉</span><b>부위별</b></button>
+      <button class="nav-item" data-go="movementView"><span>↗</span><b>동작별</b></button>
+      <button class="nav-item" data-go="savedView"><span>☆</span><b>저장</b></button>
+    </nav>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

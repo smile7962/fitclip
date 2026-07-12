@@ -1,0 +1,22 @@
+{
+  "name": "FitClip - DEMIC 운동 라이브러리",
+  "short_name": "FitClip",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ef2b2d",
+  "description": "DEMIC 운동 영상을 부위별·동작별로 찾아보는 웹앱",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

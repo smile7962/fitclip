@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ef2b2d">
+  <title>FitClip</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icon.svg">
+  <link rel="apple-touch-icon" href="./icon.svg">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <h1>Fit<span>Clip</span></h1>
+        <p>보고, 하고, 기록하기.</p>
+      </div>
+      <button id="installBtn" class="icon-btn" hidden aria-label="앱 설치">＋</button>
+    </header>
+
+    <main>
+      <section id="homeView" class="view active">
+        <label class="search-box">
+          <span>⌕</span>
+          <input id="homeSearch" type="search" placeholder="운동명, 부위, 기구 검색">
+        </label>
+        <div class="section-block">
+          <div class="section-title"><h2>최근 수행한 운동</h2><button class="text-btn" data-go="recordView">기록 보기</button></div>
+          <div id="homeWorkoutLogs" class="log-list compact"></div>
+        </div>
+        <div class="section-block">
+          <div class="section-title"><h2>부위별 찾기</h2><button class="text-btn" data-go="findView">모두 보기</button></div>
+          <div id="homeBodyCategories" class="category-grid"></div>
+        </div>
+        <div class="section-block subtle-block">
+          <div class="section-title"><h2>동작별 보조 탐색</h2><button class="text-btn" id="homeMovementMore">열기</button></div>
+          <div id="homeMovementCategories" class="category-grid"></div>
+        </div>
+        <div class="section-block">
+          <div class="section-title"><h2>최근 본 영상</h2></div>
+          <div id="recentList" class="video-grid"></div>
+        </div>
+      </section>
+
+      <section id="findView" class="view">
+        <div class="page-heading"><button class="back-btn" data-go="homeView">←</button><div><h2>운동찾기</h2><p>기본은 부위별, 동작별은 보조 탐색으로 사용하세요.</p></div></div>
+        <div class="finder-tabs">
+          <button class="finder-tab active" data-find-mode="body">부위별</button>
+          <button class="finder-tab" data-find-mode="movement">동작별</button>
+        </div>
+        <div id="bodyFindPanel">
+          <div id="bodyTabs" class="chip-row"></div>
+          <div id="subBodyTabs" class="chip-row secondary"></div>
+          <div class="section-title compact"><h3 id="bodyResultTitle">전체 운동</h3><span id="bodyCount">0개</span></div>
+          <div id="bodyVideoList" class="video-grid"></div>
+        </div>
+        <div id="movementFindPanel" hidden>
+          <div id="movementTabs" class="chip-row"></div>
+          <div id="movementDetailTabs" class="chip-row secondary"></div>
+          <div class="section-title compact"><h3 id="movementResultTitle">전체 동작</h3><span id="movementCount">0개</span></div>
+          <div id="movementVideoList" class="video-grid"></div>
+        </div>
+      </section>
+
+      <section id="recordView" class="view">
+        <div class="page-heading"><button class="back-btn" data-go="homeView">←</button><div><h2>운동 기록</h2><p>영상 확인 후 수행한 세트를 저장합니다.</p></div></div>
+        <div id="recordList" class="log-list"></div>
+      </section>
+
+      <section id="savedView" class="view">
+        <div class="page-heading"><button class="back-btn" data-go="homeView">←</button><div><h2>저장</h2><p>즐겨찾기와 최근 본 영상을 모아봅니다.</p></div></div>
+        <div class="saved-tabs">
+          <button class="saved-tab active" data-saved="favorites">즐겨찾기</button>
+          <button class="saved-tab" data-saved="recent">최근 본 영상</button>
+        </div>
+        <div id="savedList" class="video-grid"></div>
+      </section>
+
+      <section id="detailView" class="view">
+        <div class="page-heading detail-heading"><button id="detailBack" class="back-btn">←</button><h2 id="detailHeader">운동 수행</h2><button id="detailFavorite" class="favorite-large" aria-label="즐겨찾기">☆</button></div>
+        <div id="playerWrap" class="player-wrap"></div>
+        <article class="detail-card">
+          <h2 id="detailTitle">등록 예정 영상</h2>
+          <div id="detailTags" class="tag-row"></div>
+          <div class="info-box"><h3>운동 전 확인</h3><p id="detailDescription"></p></div>
+          <a id="youtubeLink" class="primary-btn" target="_blank" rel="noopener">▶ YouTube Shorts 보기</a>
+          <section class="workout-card">
+            <div class="section-title compact"><h3>오늘 세트 기록</h3><button id="addSetBtn" class="text-btn" type="button">+ 세트 추가</button></div>
+            <div id="setRows" class="set-rows"></div>
+            <textarea id="workoutMemo" class="memo-input" rows="2" placeholder="메모 선택 입력"></textarea>
+            <button id="saveWorkoutBtn" class="primary-btn" type="button">기록 저장</button>
+            <div id="recentExerciseLogs" class="log-list compact"></div>
+          </section>
+        </article>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="주요 메뉴">
+      <button class="nav-item active" data-go="homeView"><span>⌂</span><b>홈</b></button>
+      <button class="nav-item" data-go="findView"><span>◉</span><b>운동찾기</b></button>
+      <button class="nav-item" data-go="recordView"><span>▤</span><b>기록</b></button>
+      <button class="nav-item" data-go="savedView"><span>☆</span><b>저장</b></button>
+    </nav>
+  </div>
+  <script src="./app.js"></script>
+</body>
+</html>

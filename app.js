@@ -1,45 +1,7 @@
-const bodyCategories=[{name:'가슴',icon:'chest',subs:['전체','상부','중부','하부']},{name:'등',icon:'back',subs:['전체','광배근','승모근','등 중앙','척추기립근']},{name:'어깨',icon:'shoulders',subs:['전체','전면','측면','후면','회전근개']},{name:'팔',icon:'arms',subs:['전체','이두','삼두','전완']},{name:'하체',icon:'legs',subs:['전체','대퇴사두','햄스트링','둔근','종아리','내전근']},{name:'복근·코어',icon:'core',subs:['전체','상복부','하복부','복사근','코어 안정성']},{name:'전신',icon:'full-body',subs:['전체','근력','유산소','복합운동','워밍업']},{name:'스트레칭',icon:'stretch',subs:['전체','목·어깨','상체','허리','고관절','하체']}];
+const bodyCategories=[{name:'가슴',img:'./icons/muscles/chest.png',subs:['전체','상부','중부','하부']},{name:'등',img:'./icons/muscles/back.png',subs:['전체','광배근','승모근','등 중앙','척추기립근']},{name:'어깨',img:'./icons/muscles/shoulders.png',subs:['전체','전면','측면','후면','회전근개']},{name:'팔',img:'./icons/muscles/biceps.png',subs:['전체','이두','삼두','전완']},{name:'하체',img:'./icons/muscles/legs.png',subs:['전체','대퇴사두','햄스트링','둔근','종아리','내전근']},{name:'복근·코어',img:'./icons/muscles/core.png',subs:['전체','상복부','하복부','복사근','코어 안정성']},{name:'전신',img:'./icons/muscles/full-body.png',subs:['전체','근력','유산소','복합운동','워밍업']},{name:'스트레칭',img:'./icons/muscles/stretch.png',subs:['전체','목·어깨','상체','허리','고관절','하체']}];
 const movementCategories=[{name:'밀기',icon:'push',details:['전체','수평 밀기','수직 밀기','팔꿈치 펴기']},{name:'당기기',icon:'pull',details:['전체','수평 당기기','수직 당기기','팔꿈치 굽히기']},{name:'스쿼트',icon:'squat',details:['전체','양발 스쿼트','머신 스쿼트','한발 스쿼트']},{name:'힙힌지',icon:'hinge',details:['전체','데드리프트','엉덩이 펴기','햄스트링 중심']},{name:'런지',icon:'lunge',details:['전체','전진·후진','측면','고정형']},{name:'코어',icon:'brace',details:['전체','굽힘','회전','회전 저항','신전 저항','측면 안정성']},{name:'회전',icon:'rotate',details:['전체','상체 회전','고관절 회전','가동성']},{name:'이동·전신',icon:'locomotion',details:['전체','걷기·달리기','점프','운반','복합 동작']}];
 
-const muscleRed='#ff3b3d';
-// 정면·후면 공용 몸통 실루엣(목~골반, 팔은 팔꿈치에서 크롭)
-const TORSO='M28 2L36 2L37 12C41 13 46 14 49 17C55 19 58 24 56 29C55 35 54 40 53 45L46 44C46 39 46 33 45 29C44 35 43 39 42 43C42 50 43 56 45 62L19 62C21 56 22 50 22 43C21 39 20 35 19 29C18 33 18 39 18 44L11 45C10 40 9 35 8 29C6 24 9 19 15 17C18 14 23 13 27 12Z';
-// 정면 근육 새김선(쇄골·흉골·대흉근 밑선·삼각근 경계·복근 격자·이두 라인)
-const FRONT_SEAMS='M37 15C41 15 45 16 48 18M27 15C23 15 19 16 16 18M32 17L32 30M32 29C38 31 43 29 45 24M32 29C26 31 21 29 19 24M45 19C46 22 46 25 45 28M19 19C18 22 18 25 19 28M32 32L32 55M26 37H38M26 43H38M27 49H37M25 32C24 40 25 48 27 55M39 32C40 40 39 48 37 55M49 31C50 35 50 39 49 43M15 31C14 35 14 39 15 43';
-// 후면 새김선(척추·견갑골·광배근·승모근 V)
-const BACK_SEAMS='M32 14L32 55M27 18C24 21 22 25 22 29M37 18C40 21 42 25 42 29M27 13L32 22L37 13M22 32C25 38 28 42 32 45M42 32C39 38 36 42 32 45';
-// 하체 실루엣(골반~종아리 크롭)과 새김선
-const LEGS='M20 3H44C46 8 47 13 46 17C48 26 47 35 44 43C43 48 43 53 44 57C44 59 43 61 42 62L35 62C35 57 35 52 35 47C34 40 33 33 32 27C31 33 30 40 29 47C29 52 29 57 29 62L22 62C21 61 20 59 20 57C21 53 21 48 20 43C17 35 16 26 18 17C17 13 18 8 20 3Z';
-const LEG_SEAMS='M24 20C23 28 23 34 25 41M40 20C41 28 41 34 39 41M26 46C25 51 25 56 26 61M38 46C39 51 39 56 38 61M22 44H27M37 44H42';
-// 아이콘별 강조 근육 셰이프
-const HLS={
-  chest:['M31 16C25 15 20 17 18 21C18 26 22 29 27 29C29 29 31 29 31 28Z','M33 16C39 15 44 17 46 21C46 26 42 29 37 29C35 29 33 29 33 28Z'],
-  shoulders:['M15 17C9 19 6 24 8 29C11 31 15 30 17 27C18 23 17 20 15 17Z','M49 17C55 19 58 24 56 29C53 31 49 30 47 27C46 23 47 20 49 17Z'],
-  arms:['M8 29C9 35 10 40 11 45L18 44C18 39 18 33 19 29C15 31 11 31 8 29Z','M56 29C55 35 54 40 53 45L46 44C46 39 46 33 45 29C49 31 53 31 56 29Z'],
-  core:['M25 31C29 33 35 33 39 31C41 40 40 49 36 57L28 57C24 49 23 40 25 31Z'],
-  back:['M27 13C30 15 34 15 37 13L43 18C41 24 37 28 32 30C27 28 23 24 21 18Z','M21 24C20 33 24 42 32 48C40 42 44 33 43 24C40 29 36 31 32 31C28 31 24 29 21 24Z'],
-  quads:['M19 18C17 26 18 35 21 42C24 44 27 43 28 39C29 31 28 24 27 18C24 17 21 17 19 18Z','M45 18C47 26 46 35 43 42C40 44 37 43 36 39C35 31 36 24 37 18C40 17 43 17 45 18Z']
-};
-function anatomyIcon(id,body,seams,hl,extra=''){
-  const glow=hl.map(d=>`<path d="${d}" fill="${muscleRed}" stroke="none" filter="url(#g-${id})" opacity=".9"/>`).join('');
-  const solid=hl.map(d=>`<path d="${d}" fill="url(#hl-${id})" stroke="none"/>`).join('');
-  return `<svg viewBox="0 0 64 64" aria-hidden="true"><defs>`+
-    `<radialGradient id="bg-${id}" cx="50%" cy="30%" r="75%"><stop offset="0%" stop-color="#c6ccd6"/><stop offset="60%" stop-color="#9aa3b1"/><stop offset="100%" stop-color="#788190"/></radialGradient>`+
-    `<radialGradient id="hl-${id}" cx="50%" cy="40%" r="70%"><stop offset="0%" stop-color="#ff7a6a"/><stop offset="55%" stop-color="${muscleRed}"/><stop offset="100%" stop-color="#d81f27"/></radialGradient>`+
-    `<filter id="g-${id}" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.6"/></filter></defs>`+
-    `<path d="${body}" fill="url(#bg-${id})" stroke="none"/>${glow}${solid}`+
-    `<path d="${seams}" fill="none" stroke="#5f6875" stroke-width="1.3" stroke-linecap="round" opacity=".65"/>${extra}</svg>`;
-}
-const stretchArrows='M12 12 4 4M4 11V4h7M52 12l8-8M60 11V4h-7';
 const categoryIcons={
-  chest:anatomyIcon('chest',TORSO,FRONT_SEAMS,HLS.chest),
-  back:anatomyIcon('back',TORSO,BACK_SEAMS,HLS.back),
-  shoulders:anatomyIcon('sho',TORSO,FRONT_SEAMS,HLS.shoulders),
-  arms:anatomyIcon('arm',TORSO,FRONT_SEAMS,HLS.arms),
-  legs:anatomyIcon('leg',LEGS,LEG_SEAMS,HLS.quads),
-  core:anatomyIcon('core',TORSO,FRONT_SEAMS,HLS.core),
-  'full-body':anatomyIcon('full',TORSO,FRONT_SEAMS,[TORSO]),
-  stretch:anatomyIcon('str',TORSO,FRONT_SEAMS,[],`<g stroke="${muscleRed}" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#g-str)"><path d="${stretchArrows}"/></g><g stroke="${muscleRed}" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="${stretchArrows}"/></g>`),
   push:'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M15 33h25"/><path d="M40 21l12 12-12 12"/><path d="M16 21v24"/></svg>',
   pull:'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M49 33H24"/><path d="M24 21 12 33l12 12"/><path d="M48 21v24"/></svg>',
   squat:'<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="33" cy="12" r="5"/><path d="M30 19l-7 15 14 4"/><path d="M23 34l-7 15"/><path d="M37 38l9 12"/><path d="M16 49h13"/><path d="M42 50h9"/></svg>',
@@ -49,7 +11,7 @@ const categoryIcons={
   rotate:'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M44 21a17 17 0 0 0-27 8"/><path d="M17 20v9h9"/><path d="M20 43a17 17 0 0 0 27-8"/><path d="M47 44v-9h-9"/></svg>',
   locomotion:'<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="30" cy="12" r="5"/><path d="M31 18l-8 13 12 8"/><path d="M35 39l11 10"/><path d="M23 31l-8 18"/><path d="M37 24l10 4"/></svg>'
 };
-function iconMarkup(item){return `<span class="category-icon">${categoryIcons[item.icon]||''}</span>`}
+function iconMarkup(item){return item.img?`<span class="category-icon photo"><img src="${item.img}" alt="" loading="lazy"></span>`:`<span class="category-icon">${categoryIcons[item.icon]||''}</span>`}
 
 const videos=[{id:1,title:'DEMIC 운동 Shorts',exerciseName:'운동 자세',bodyPart:'전신',subBodyPart:'전체',movementPattern:'이동·전신',movementDetail:'복합 동작',equipment:'기타',difficulty:'확인 필요',youtubeId:'BkhOFoTvNZM',description:'사용자가 제공한 DEMIC Shorts 영상입니다. 영상 제목과 정확한 운동 분류는 실제 내용을 확인한 뒤 수정할 수 있습니다.',real:true},{id:2,title:'벤치프레스 자세 교정',exerciseName:'벤치프레스',bodyPart:'가슴',subBodyPart:'중부',movementPattern:'밀기',movementDetail:'수평 밀기',equipment:'바벨',difficulty:'초급',youtubeId:null,description:'UI 테스트용 등록 예정 항목입니다.',real:false},{id:3,title:'인클라인 벤치프레스',exerciseName:'인클라인 벤치프레스',bodyPart:'가슴',subBodyPart:'상부',movementPattern:'밀기',movementDetail:'수평 밀기',equipment:'바벨',difficulty:'초급',youtubeId:null,description:'UI 테스트용 등록 예정 항목입니다.',real:false},{id:4,title:'랫풀다운 자세',exerciseName:'랫풀다운',bodyPart:'등',subBodyPart:'광배근',movementPattern:'당기기',movementDetail:'수직 당기기',equipment:'머신',difficulty:'초급',youtubeId:null,description:'UI 테스트용 등록 예정 항목입니다.',real:false},{id:5,title:'스쿼트 기본 자세',exerciseName:'스쿼트',bodyPart:'하체',subBodyPart:'대퇴사두',movementPattern:'스쿼트',movementDetail:'양발 스쿼트',equipment:'바벨',difficulty:'초급',youtubeId:null,description:'UI 테스트용 등록 예정 항목입니다.',real:false},{id:6,title:'루마니안 데드리프트',exerciseName:'루마니안 데드리프트',bodyPart:'하체',subBodyPart:'햄스트링',movementPattern:'힙힌지',movementDetail:'햄스트링 중심',equipment:'바벨',difficulty:'중급',youtubeId:null,description:'UI 테스트용 등록 예정 항목입니다.',real:false}];
 let favorites=JSON.parse(localStorage.getItem('fitclipFavorites')||'[]');let recent=JSON.parse(localStorage.getItem('fitclipRecent')||'[]');let currentBody='전체',currentSubBody='전체',currentMovement='전체',currentMovementDetail='전체',currentVideo=null,previousView='homeView',savedMode='favorites';

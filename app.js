@@ -1,46 +1,45 @@
 const bodyCategories=[{name:'가슴',icon:'chest',subs:['전체','상부','중부','하부']},{name:'등',icon:'back',subs:['전체','광배근','승모근','등 중앙','척추기립근']},{name:'어깨',icon:'shoulders',subs:['전체','전면','측면','후면','회전근개']},{name:'팔',icon:'arms',subs:['전체','이두','삼두','전완']},{name:'하체',icon:'legs',subs:['전체','대퇴사두','햄스트링','둔근','종아리','내전근']},{name:'복근·코어',icon:'core',subs:['전체','상복부','하복부','복사근','코어 안정성']},{name:'전신',icon:'full-body',subs:['전체','근력','유산소','복합운동','워밍업']},{name:'스트레칭',icon:'stretch',subs:['전체','목·어깨','상체','허리','고관절','하체']}];
 const movementCategories=[{name:'밀기',icon:'push',details:['전체','수평 밀기','수직 밀기','팔꿈치 펴기']},{name:'당기기',icon:'pull',details:['전체','수평 당기기','수직 당기기','팔꿈치 굽히기']},{name:'스쿼트',icon:'squat',details:['전체','양발 스쿼트','머신 스쿼트','한발 스쿼트']},{name:'힙힌지',icon:'hinge',details:['전체','데드리프트','엉덩이 펴기','햄스트링 중심']},{name:'런지',icon:'lunge',details:['전체','전진·후진','측면','고정형']},{name:'코어',icon:'brace',details:['전체','굽힘','회전','회전 저항','신전 저항','측면 안정성']},{name:'회전',icon:'rotate',details:['전체','상체 회전','고관절 회전','가동성']},{name:'이동·전신',icon:'locomotion',details:['전체','걷기·달리기','점프','운반','복합 동작']}];
 
-const muscleGray='#9aa2af',muscleRed='#ff3b3d';
-// 근육 부위별 조각 경로 — 정면 몸통(목·승모근·삼각근·팔·대흉근·복근·복사근)
-const frontParts={
-  neck:'M29 3h6l1 9c-3 1-5 1-8 0z',
-  trapL:'M27 12L14 17l13 3z',trapR:'M37 12l13 5-13 3z',
-  deltL:'M14 17c-4 2-6 6-6 10 3 2 6 2 8 1 1-4 1-8-2-11z',deltR:'M50 17c4 2 6 6 6 10-3 2-6 2-8 1-1-4-1-8 2-11z',
-  armL:'M8 29l2 11c2 2 4 2 6 0l1-10c-3 1-6 1-9-1z',armR:'M56 29l-2 11c-2 2-4 2-6 0l-1-10c3 1 6 1 9-1z',
-  pecL:'M17 19c4-2 9-3 14-2v11c-5 2-11 1-13-3-1-2-1-4-1-6z',pecR:'M47 19c-4-2-9-3-14-2v11c5 2 11 1 13-3 1-2 1-4 1-6z',
-  oblL:'M19 31c1 6 3 11 6 15V32c-2-1-4-1-6-1z',oblR:'M45 31c-1 6-3 11-6 15V32c2-1 4-1 6-1z',
-  abs:'M26 31h5v6h-5zM33 31h5v6h-5zM26 38h5v6h-5zM33 38h5v6h-5zM27 45h4v6h-4zM33 45h4v6h-4z'
+const muscleRed='#ff3b3d';
+// 정면·후면 공용 몸통 실루엣(목~골반, 팔은 팔꿈치에서 크롭)
+const TORSO='M28 2L36 2L37 12C41 13 46 14 49 17C55 19 58 24 56 29C55 35 54 40 53 45L46 44C46 39 46 33 45 29C44 35 43 39 42 43C42 50 43 56 45 62L19 62C21 56 22 50 22 43C21 39 20 35 19 29C18 33 18 39 18 44L11 45C10 40 9 35 8 29C6 24 9 19 15 17C18 14 23 13 27 12Z';
+// 정면 근육 새김선(쇄골·흉골·대흉근 밑선·삼각근 경계·복근 격자·이두 라인)
+const FRONT_SEAMS='M37 15C41 15 45 16 48 18M27 15C23 15 19 16 16 18M32 17L32 30M32 29C38 31 43 29 45 24M32 29C26 31 21 29 19 24M45 19C46 22 46 25 45 28M19 19C18 22 18 25 19 28M32 32L32 55M26 37H38M26 43H38M27 49H37M25 32C24 40 25 48 27 55M39 32C40 40 39 48 37 55M49 31C50 35 50 39 49 43M15 31C14 35 14 39 15 43';
+// 후면 새김선(척추·견갑골·광배근·승모근 V)
+const BACK_SEAMS='M32 14L32 55M27 18C24 21 22 25 22 29M37 18C40 21 42 25 42 29M27 13L32 22L37 13M22 32C25 38 28 42 32 45M42 32C39 38 36 42 32 45';
+// 하체 실루엣(골반~종아리 크롭)과 새김선
+const LEGS='M20 3H44C46 8 47 13 46 17C48 26 47 35 44 43C43 48 43 53 44 57C44 59 43 61 42 62L35 62C35 57 35 52 35 47C34 40 33 33 32 27C31 33 30 40 29 47C29 52 29 57 29 62L22 62C21 61 20 59 20 57C21 53 21 48 20 43C17 35 16 26 18 17C17 13 18 8 20 3Z';
+const LEG_SEAMS='M24 20C23 28 23 34 25 41M40 20C41 28 41 34 39 41M26 46C25 51 25 56 26 61M38 46C39 51 39 56 38 61M22 44H27M37 44H42';
+// 아이콘별 강조 근육 셰이프
+const HLS={
+  chest:['M31 16C25 15 20 17 18 21C18 26 22 29 27 29C29 29 31 29 31 28Z','M33 16C39 15 44 17 46 21C46 26 42 29 37 29C35 29 33 29 33 28Z'],
+  shoulders:['M15 17C9 19 6 24 8 29C11 31 15 30 17 27C18 23 17 20 15 17Z','M49 17C55 19 58 24 56 29C53 31 49 30 47 27C46 23 47 20 49 17Z'],
+  arms:['M8 29C9 35 10 40 11 45L18 44C18 39 18 33 19 29C15 31 11 31 8 29Z','M56 29C55 35 54 40 53 45L46 44C46 39 46 33 45 29C49 31 53 31 56 29Z'],
+  core:['M25 31C29 33 35 33 39 31C41 40 40 49 36 57L28 57C24 49 23 40 25 31Z'],
+  back:['M27 13C30 15 34 15 37 13L43 18C41 24 37 28 32 30C27 28 23 24 21 18Z','M21 24C20 33 24 42 32 48C40 42 44 33 43 24C40 29 36 31 32 31C28 31 24 29 21 24Z'],
+  quads:['M19 18C17 26 18 35 21 42C24 44 27 43 28 39C29 31 28 24 27 18C24 17 21 17 19 18Z','M45 18C47 26 46 35 43 42C40 44 37 43 36 39C35 31 36 24 37 18C40 17 43 17 45 18Z']
 };
-// 후면 몸통(승모근·능형근 판·광배근·척추기립근)
-const backParts={
-  neck:frontParts.neck,trapL:frontParts.trapL,trapR:frontParts.trapR,
-  deltL:frontParts.deltL,deltR:frontParts.deltR,armL:frontParts.armL,armR:frontParts.armR,
-  bladeL:frontParts.pecL,bladeR:frontParts.pecR,
-  latL:'M18 30c1 8 5 14 10 18l1-16c-4-1-8-1-11-2z',latR:'M46 30c-1 8-5 14-10 18l-1-16c4-1 8-1 11-2z',
-  erect:'M29 31h2.5v19H29zM32.5 31h2.5v19h-2.5z'
-};
-// 하체(골반·대퇴사두·종아리)
-const legParts={
-  pelvis:'M20 6h24l-2 10c-4 2-16 2-20 0z',
-  quadL:'M22 17c-3 7-3 15 0 22 3 2 6 1 7-3 1-8 0-15-1-19-2-1-4-1-6 0z',quadR:'M42 17c3 7 3 15 0 22-3 2-6 1-7-3-1-8 0-15 1-19 2-1 4-1 6 0z',
-  calfL:'M21 41c-1 6 0 11 2 16l5-1c1-5 1-10 0-14-2-1-5-2-7-1z',calfR:'M43 41c1 6 0 11-2 16l-5-1c-1-5-1-10 0-14 2-1 5-2 7-1z'
-};
-function muscleIcon(id,parts,hl,extra=''){
-  const p=(d,f,attr='')=>`<path d="${d}" fill="${f}" stroke="none"${attr}/>`;
-  const glow=hl.map(k=>p(parts[k],muscleRed,` filter="url(#g-${id})"`)).join('');
-  const body=Object.keys(parts).map(k=>p(parts[k],hl.includes(k)?muscleRed:muscleGray)).join('');
-  return `<svg viewBox="0 0 64 64" aria-hidden="true"><defs><filter id="g-${id}" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.5"/></filter></defs>${glow}${body}${extra}</svg>`;
+function anatomyIcon(id,body,seams,hl,extra=''){
+  const glow=hl.map(d=>`<path d="${d}" fill="${muscleRed}" stroke="none" filter="url(#g-${id})" opacity=".9"/>`).join('');
+  const solid=hl.map(d=>`<path d="${d}" fill="url(#hl-${id})" stroke="none"/>`).join('');
+  return `<svg viewBox="0 0 64 64" aria-hidden="true"><defs>`+
+    `<radialGradient id="bg-${id}" cx="50%" cy="30%" r="75%"><stop offset="0%" stop-color="#c6ccd6"/><stop offset="60%" stop-color="#9aa3b1"/><stop offset="100%" stop-color="#788190"/></radialGradient>`+
+    `<radialGradient id="hl-${id}" cx="50%" cy="40%" r="70%"><stop offset="0%" stop-color="#ff7a6a"/><stop offset="55%" stop-color="${muscleRed}"/><stop offset="100%" stop-color="#d81f27"/></radialGradient>`+
+    `<filter id="g-${id}" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.6"/></filter></defs>`+
+    `<path d="${body}" fill="url(#bg-${id})" stroke="none"/>${glow}${solid}`+
+    `<path d="${seams}" fill="none" stroke="#5f6875" stroke-width="1.3" stroke-linecap="round" opacity=".65"/>${extra}</svg>`;
 }
+const stretchArrows='M12 12 4 4M4 11V4h7M52 12l8-8M60 11V4h-7';
 const categoryIcons={
-  chest:muscleIcon('chest',frontParts,['pecL','pecR']),
-  back:muscleIcon('back',backParts,['trapL','trapR','bladeL','bladeR','latL','latR']),
-  shoulders:muscleIcon('sho',frontParts,['deltL','deltR']),
-  arms:muscleIcon('arm',frontParts,['armL','armR']),
-  legs:muscleIcon('leg',legParts,['quadL','quadR']),
-  core:muscleIcon('core',frontParts,['abs','oblL','oblR']),
-  'full-body':muscleIcon('full',frontParts,Object.keys(frontParts)),
-  stretch:muscleIcon('str',frontParts,[],`<g stroke="${muscleRed}" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#g-str)"><path d="M13 13 5 5M5 12V5h7M51 13l8-8M59 12V5h-7"/></g><g stroke="${muscleRed}" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M13 13 5 5M5 12V5h7M51 13l8-8M59 12V5h-7"/></g>`),
+  chest:anatomyIcon('chest',TORSO,FRONT_SEAMS,HLS.chest),
+  back:anatomyIcon('back',TORSO,BACK_SEAMS,HLS.back),
+  shoulders:anatomyIcon('sho',TORSO,FRONT_SEAMS,HLS.shoulders),
+  arms:anatomyIcon('arm',TORSO,FRONT_SEAMS,HLS.arms),
+  legs:anatomyIcon('leg',LEGS,LEG_SEAMS,HLS.quads),
+  core:anatomyIcon('core',TORSO,FRONT_SEAMS,HLS.core),
+  'full-body':anatomyIcon('full',TORSO,FRONT_SEAMS,[TORSO]),
+  stretch:anatomyIcon('str',TORSO,FRONT_SEAMS,[],`<g stroke="${muscleRed}" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#g-str)"><path d="${stretchArrows}"/></g><g stroke="${muscleRed}" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="${stretchArrows}"/></g>`),
   push:'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M15 33h25"/><path d="M40 21l12 12-12 12"/><path d="M16 21v24"/></svg>',
   pull:'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M49 33H24"/><path d="M24 21 12 33l12 12"/><path d="M48 21v24"/></svg>',
   squat:'<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="33" cy="12" r="5"/><path d="M30 19l-7 15 14 4"/><path d="M23 34l-7 15"/><path d="M37 38l9 12"/><path d="M16 49h13"/><path d="M42 50h9"/></svg>',

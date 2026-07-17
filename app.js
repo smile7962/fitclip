@@ -1,15 +1,20 @@
 const bodyCategories=[{name:'가슴',icon:'chest',subs:['전체','상부','중부','하부']},{name:'등',icon:'back',subs:['전체','광배근','승모근','등 중앙','척추기립근']},{name:'어깨',icon:'shoulders',subs:['전체','전면','측면','후면','회전근개']},{name:'팔',icon:'arms',subs:['전체','이두','삼두','전완']},{name:'하체',icon:'legs',subs:['전체','대퇴사두','햄스트링','둔근','종아리','내전근']},{name:'복근·코어',icon:'core',subs:['전체','상복부','하복부','복사근','코어 안정성']},{name:'전신',icon:'full-body',subs:['전체','근력','유산소','복합운동','워밍업']},{name:'스트레칭',icon:'stretch',subs:['전체','목·어깨','상체','허리','고관절','하체']}];
 const movementCategories=[{name:'밀기',icon:'push',details:['전체','수평 밀기','수직 밀기','팔꿈치 펴기']},{name:'당기기',icon:'pull',details:['전체','수평 당기기','수직 당기기','팔꿈치 굽히기']},{name:'스쿼트',icon:'squat',details:['전체','양발 스쿼트','머신 스쿼트','한발 스쿼트']},{name:'힙힌지',icon:'hinge',details:['전체','데드리프트','엉덩이 펴기','햄스트링 중심']},{name:'런지',icon:'lunge',details:['전체','전진·후진','측면','고정형']},{name:'코어',icon:'brace',details:['전체','굽힘','회전','회전 저항','신전 저항','측면 안정성']},{name:'회전',icon:'rotate',details:['전체','상체 회전','고관절 회전','가동성']},{name:'이동·전신',icon:'locomotion',details:['전체','걷기·달리기','점프','운반','복합 동작']}];
 
+const muscleGray='#bfc6d1',muscleRed='#ef2b2d';
+// 정면 근육 몸통 실루엣(목·승모근·어깨·팔·몸통) — 부위 아이콘 공용 베이스
+const muscleBody=`<path fill="${muscleGray}" stroke="none" d="M28 4H36V10C42 10 46 12 49 15C54 17 56 21 56 25L53 41C51 44 48 44 47 41L48 30C46 33 45 36 45 40C45 45 46 49 46 52H18C18 49 19 45 19 40C19 36 18 33 16 30L17 41C16 44 13 44 11 41L8 25C8 21 10 17 15 15C18 12 22 10 28 10Z"/>`;
+const muscleSvg=(inner)=>`<svg viewBox="0 0 64 64" aria-hidden="true">${muscleBody}${inner}</svg>`;
+const red=(d)=>`<path fill="${muscleRed}" stroke="none" d="${d}"/>`;
 const categoryIcons={
-  chest:'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M29 13H21c-4 0-7 3-7 7 0 12 6 20 15 22z"/><path d="M35 13h8c4 0 7 3 7 7 0 12-6 20-15 22z"/></svg>',
-  back:'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M16 14c10-5 22-5 32 0"/><path d="M16 14c1 14 6 28 16 37"/><path d="M48 14c-1 14-6 28-16 37"/><path d="M32 18v33"/><path d="M21 24c3 4 7 7 11 8"/><path d="M43 24c-3 4-7 7-11 8"/></svg>',
-  shoulders:'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M13 45c0-15 8-26 19-26s19 11 19 26"/><path d="M26 21c-2 8-3 16-2 24"/><path d="M38 21c2 8 3 16 2 24"/><path d="M13 45h38"/></svg>',
-  arms:'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M40 20c0-4 3-7 6-7s6 3 6 7v14c0 10-8 18-18 18H22c-7 0-12-5-12-12v-6"/><path d="M40 23h12"/><path d="M10 34c1-8 8-14 16-13 7 1 11 6 12 13"/></svg>',
-  legs:'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M20 12h24"/><path d="M20 12c-6 13-5 27 5 40"/><path d="M44 12c6 13 5 27-5 40"/><path d="M32 16v36"/><path d="M25 22c-1 7 0 13 2 19"/><path d="M39 22c1 7 0 13-2 19"/></svg>',
-  core:'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M22 12h20"/><path d="M22 12c-2 13 0 27 7 38"/><path d="M42 12c2 13 0 27-7 38"/><path d="M32 14v34"/><path d="M23 24c6 3 12 3 18 0"/><path d="M24 35c5 3 11 3 16 0"/></svg>',
-  'full-body':'<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="11" r="5"/><path d="M32 18v17"/><path d="M32 22c-8 2-14-1-15-10"/><path d="M32 22c8 2 14-1 15-10"/><path d="M32 35l-9 17"/><path d="M32 35l9 17"/></svg>',
-  stretch:'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M18 32c0-6 6-10 14-10s14 4 14 10-6 10-14 10-14-4-14-10z"/><path d="M18 32h-8"/><path d="M46 32h8"/><path d="M14 26l-6 6 6 6"/><path d="M50 26l6 6-6 6"/></svg>',
+  chest:muscleSvg(red('M31 14C26 13 21 15 19 18C19 23 23 27 28 27C29 27 30 27 31 26Z')+red('M33 14C38 13 43 15 45 18C45 23 41 27 36 27C35 27 34 27 33 26Z')),
+  back:muscleSvg(red('M28 11H36L46 17C46 26 42 34 32 43C22 34 18 26 18 17Z')),
+  shoulders:muscleSvg(`<ellipse cx="14" cy="20" rx="6" ry="6" fill="${muscleRed}" stroke="none"/><ellipse cx="50" cy="20" rx="6" ry="6" fill="${muscleRed}" stroke="none"/>`),
+  arms:muscleSvg(red('M49 15C54 17 56 21 56 25L53 41C51 44 48 44 47 41L48 28C48 21 48 17 49 15Z')+red('M15 15C10 17 8 21 8 25L11 41C13 44 16 44 17 41L16 28C16 21 16 17 15 15Z')),
+  legs:`<svg viewBox="0 0 64 64" aria-hidden="true"><path fill="${muscleGray}" stroke="none" d="M18 10H46C49 22 48 33 45 44L44 52H36L35 44C34 38 33 32 32 28C31 32 30 38 29 44L28 52H20L19 44C16 33 15 22 18 10Z"/>${red('M20 14C18 22 18 32 21 40C24 42 27 41 28 38C29 30 29 20 28 14Z')}${red('M44 14C46 22 46 32 43 40C40 42 37 41 36 38C35 30 35 20 36 14Z')}</svg>`,
+  core:muscleSvg(['29','36.5','44'].map(y=>`<rect x="25.5" y="${y}" width="6" height="6.5" rx="2" fill="${muscleRed}" stroke="none"/><rect x="32.5" y="${y}" width="6" height="6.5" rx="2" fill="${muscleRed}" stroke="none"/>`).join('')),
+  'full-body':`<svg viewBox="0 0 64 64" aria-hidden="true"><path fill="${muscleRed}" stroke="none" d="M28 4H36V10C42 10 46 12 49 15C54 17 56 21 56 25L53 41C51 44 48 44 47 41L48 30C46 33 45 36 45 40C45 45 46 49 46 52H18C18 49 19 45 19 40C19 36 18 33 16 30L17 41C16 44 13 44 11 41L8 25C8 21 10 17 15 15C18 12 22 10 28 10Z"/></svg>`,
+  stretch:muscleSvg(`<path stroke="${muscleRed}" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" d="M13 13 5 5M5 12V5h7M51 13l8-8M59 12V5h-7"/>`),
   push:'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M15 33h25"/><path d="M40 21l12 12-12 12"/><path d="M16 21v24"/></svg>',
   pull:'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M49 33H24"/><path d="M24 21 12 33l12 12"/><path d="M48 21v24"/></svg>',
   squat:'<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="33" cy="12" r="5"/><path d="M30 19l-7 15 14 4"/><path d="M23 34l-7 15"/><path d="M37 38l9 12"/><path d="M16 49h13"/><path d="M42 50h9"/></svg>',
